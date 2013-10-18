@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ==================================================================    -->
+<!-- Extention copier                                                      -->
+<!-- This PHING build file copies the current extension files form repo    -->
+<project name="Extentions" default="site" basedir=".">
+
+    <target name="site" depends="init, copy" description="Do a full build"/>
+
+    <!-- Do initialization stuff -->
+    <target name="init" >
+        <if>
+            <not>
+                 <available file="build.properties"/>
+            </not>
+            <then>
+                <fail message="The file build.properties does not exists." />
+            </then>
+            <else>
+                <property file="build.properties"  override="true"/>
+                <echo message="build.properties File included successfully." />
+            </else>
+        </if>
+        <property name="src" value="./" />
+    </target>
+
+    <target name="copy" description="Copies files to a existing joomla site">
+
+        <echo message="---------------- || MODULES || ----------------"/>
+
+        <!-- Modules - Site -->
+        <echo message="Copying frontend modules..." />
+        <copy todir="${www.dir}/modules" overwrite="true">
+            <fileset dir="${src}/modules">
+                <include name="**" />
+            </fileset>
+        </copy>
+    </target>
+
+</project>
